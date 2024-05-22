@@ -1,6 +1,25 @@
 import sqlite3
 import json
 
+def insert_hauler(ship_data):
+    with sqlite3.connect("./shipping.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute(
+            """
+            INSERT INTO Hauler (name, dock_id)
+                VALUES(
+                    ?,
+                    ?
+                    )
+            """,
+            (ship_data['name'], ship_data['dock_id'])
+        )
+
+        rows_affected = db_cursor.rowcount
+
+    return True if rows_affected > 0 else False
+
 def update_hauler(id, hauler_data):
     with sqlite3.connect("./shipping.db") as conn:
         db_cursor = conn.cursor()
